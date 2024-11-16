@@ -28,8 +28,27 @@
       color: #3d2717;
     }
     #calendar-container {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
       margin-top: 20px;
+    }
+    .calendar-day {
+      border: 1px solid #3d2717;
+      background-color: #fdf8f3;
+      padding: 10px;
+      height: 100px;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .calendar-day h4 {
+      margin: 0;
       font-size: 18px;
+      color: #3d2717;
+    }
+    .calendar-day p {
+      font-size: 14px;
+      color: #3d2717;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -94,25 +113,22 @@
   }
 
   function generateCalendar() {
-    let calendarHTML = "<h3>Prompt Calendar</h3><ul>";
     const category = document.getElementById("category-menu").value;
     const combinedPrompts = prompts[category].concat(customPrompts);
+    const daysInMonth = 30;
+    let calendarHTML = "";
 
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 1; i <= daysInMonth; i++) {
       const randomPrompt = combinedPrompts[Math.floor(Math.random() * combinedPrompts.length)];
-      calendarHTML += `<li>Day ${i}: ${randomPrompt}</li>`;
+      calendarHTML += `
+        <div class="calendar-day">
+          <h4>Day ${i}</h4>
+          <p>${randomPrompt}</p>
+        </div>
+      `;
     }
 
-    calendarHTML += "</ul>";
     document.getElementById("calendar-container").innerHTML = calendarHTML;
-  }
-
-  // Java function placeholder (Java usage here just as a syntax request)
-  function javaCategoryExample() {
-    // Syntax for "scanner.nextInt()" in Java context
-    const scanner = { nextInt: () => 1 }; // Mock for context
-    const selectedMenu = scanner.nextInt(); 
-    console.log("Selected category:", selectedMenu); 
   }
 </script>
 
