@@ -27,27 +27,92 @@
       font-size: 24px;
       color: #3d2717;
     }
+    #calendar-container {
+      margin-top: 20px;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
 
 <h1>Art Prompt Generator</h1>
+
+<!-- Generate Prompt Button -->
 <button class="w3-button" onclick="generatePrompt()">Generate Prompt</button>
 
-<div id="prompt-container"></div>
+<!-- Category Menu -->
+<div>
+  <h3>Category</h3>
+  <select id="category-menu">
+    <option value="objects">Objects</option>
+    <option value="scenario">Scenario</option>
+    <option value="animal">Animal</option>
+    <option value="landscape">Landscape</option>
+  </select>
+</div>
+
+<!-- Custom Prompt Input -->
+<div>
+  <h3>Input Your Own</h3>
+  <input type="text" id="custom-prompt" placeholder="Type your own prompt" />
+  <button class="w3-button" onclick="addCustomPrompt()">Confirm</button>
+</div>
+
+<!-- Output Area -->
+<div id="prompt-container">Only one output here</div>
+
+<!-- Generate Calendar Button -->
+<button class="w3-button" onclick="generateCalendar()">Generate Calendar</button>
+
+<!-- Calendar Output -->
+<div id="calendar-container"></div>
 
 <script>
+  const prompts = {
+    objects: ["Draw a vintage clock.", "Sketch an ornate teapot.", "Illustrate a pair of old boots."],
+    scenario: ["Create a bustling marketplace.", "Depict a peaceful library scene.", "Show a dramatic chase."],
+    animal: ["Draw a majestic eagle.", "Sketch a playful dolphin.", "Illustrate a curious fox."],
+    landscape: ["Paint a mountain sunrise.", "Create a calm desert scene.", "Illustrate a stormy sea."]
+  };
+
+  let customPrompts = [];
+
   function generatePrompt() {
-    const prompts = [
-      "Draw a serene forest at twilight.",
-      "Create an abstract piece inspired by the concept of time.",
-      "Illustrate a scene from your favorite childhood memory.",
-      "Design a futuristic cityscape.",
-      "Depict an emotion using only warm colors."
-    ];
-    
-    const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-    document.getElementById('prompt-container').innerText = randomPrompt;
+    const category = document.getElementById("category-menu").value;
+    const combinedPrompts = prompts[category].concat(customPrompts);
+    const randomPrompt = combinedPrompts[Math.floor(Math.random() * combinedPrompts.length)];
+    document.getElementById("prompt-container").innerText = randomPrompt;
+  }
+
+  function addCustomPrompt() {
+    const userPrompt = document.getElementById("custom-prompt").value;
+    if (userPrompt) {
+      customPrompts.push(userPrompt);
+      document.getElementById("custom-prompt").value = '';
+      alert("Custom prompt added!");
+    }
+  }
+
+  function generateCalendar() {
+    let calendarHTML = "<h3>Prompt Calendar</h3><ul>";
+    const category = document.getElementById("category-menu").value;
+    const combinedPrompts = prompts[category].concat(customPrompts);
+
+    for (let i = 1; i <= 30; i++) {
+      const randomPrompt = combinedPrompts[Math.floor(Math.random() * combinedPrompts.length)];
+      calendarHTML += `<li>Day ${i}: ${randomPrompt}</li>`;
+    }
+
+    calendarHTML += "</ul>";
+    document.getElementById("calendar-container").innerHTML = calendarHTML;
+  }
+
+  // Java function placeholder (Java usage here just as a syntax request)
+  function javaCategoryExample() {
+    // Syntax for "scanner.nextInt()" in Java context
+    const scanner = { nextInt: () => 1 }; // Mock for context
+    const selectedMenu = scanner.nextInt(); 
+    console.log("Selected category:", selectedMenu); 
   }
 </script>
 
